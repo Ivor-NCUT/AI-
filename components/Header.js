@@ -31,7 +31,11 @@ function Header({ theme, toggleTheme, currentUser }) {
                     </div>
                   </div>
                   <button
-                    onClick={logout}
+                    onClick={() => {
+                      if (confirm('确定要退出登录吗？')) {
+                        logout();
+                      }
+                    }}
                     className="text-[var(--text-secondary)] hover:text-red-500 transition-all duration-200 p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
                     title="退出登录"
                   >
@@ -82,7 +86,11 @@ function Header({ theme, toggleTheme, currentUser }) {
                   </div>
                 </div>
                 <button
-                  onClick={logout}
+                  onClick={() => {
+                    if (confirm('确定要退出登录吗？')) {
+                      logout();
+                    }
+                  }}
                   className="text-red-500 p-2"
                 >
                   <div className="icon-log-out text-lg"></div>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统测试 - AI产品订阅管理系统</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status.success {
+            background: #28a745;
+            color: white;
+        }
+        .status.error {
+            background: #dc3545;
+            color: white;
+        }
+        .status.warning {
+            background: #ffc107;
+            color: #333;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        .test-result {
+            margin-top: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .links {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .link-card {
+            flex: 1;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 AI产品订阅管理系统 - 功能测试</h1>
+        
+        <div class="test-section">
+            <div class="test-title">
+                1. 登录状态检查
+                <span id="auth-status" class="status">检查中...</span>
+            </div>
+            <div id="auth-result" class="test-result"></div>
+            <button onclick="checkAuth()">检查登录状态</button>
+            <button onclick="clearAuth()">清除登录状态</button>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">
+                2. 本地存储检查
+                <span id="storage-status" class="status">检查中...</span>
+            </div>
+            <div id="storage-result" class="test-result"></div>
+            <button onclick="checkStorage()">检查存储</button>
+            <button onclick="clearStorage()">清除所有数据</button>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">
+                3. 快速登录测试
+            </div>
+            <button onclick="loginAsAdmin()">管理员登录</button>
+            <button onclick="loginAsUser()">普通用户登录</button>
+            <button onclick="logout()">退出登录</button>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">
+                4. 页面导航测试
+            </div>
+            <div class="links">
+                <a href="login.html" class="link-card">
+                    <div style="font-size: 24px;">🔐</div>
+                    <div>登录页面</div>
+                </a>
+                <a href="index.html" class="link-card">
+                    <div style="font-size: 24px;">🏠</div>
+                    <div>主页面</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">
+                5. 系统信息
+            </div>
+            <div class="test-result">
+                <p><strong>浏览器：</strong><span id="browser-info"></span></p>
+                <p><strong>屏幕分辨率：</strong><span id="screen-info"></span></p>
+                <p><strong>当前时间：</strong><span id="time-info"></span></p>
+                <p><strong>本地存储可用：</strong><span id="storage-available"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 检查登录状态
+        function checkAuth() {
+            const user = localStorage.getItem('currentUser');
+            const statusEl = document.getElementById('auth-status');
+            const resultEl = document.getElementById('auth-result');
+            
+            if (user) {
+                const userData = JSON.parse(user);
+                statusEl.className = 'status success';
+                statusEl.textContent = '已登录';
+                resultEl.innerHTML = `
+                    <strong>用户信息：</strong><br>
+                    用户名：${userData.username}<br>
+                    角色：${userData.role}<br>
+                    邮箱：${userData.email}<br>
+                    公司：${userData.company}
+                `;
+            } else {
+                statusEl.className = 'status warning';
+                statusEl.textContent = '未登录';
+                resultEl.innerHTML = '当前没有用户登录';
+            }
+        }
+
+        // 清除登录状态
+        function clearAuth() {
+            localStorage.removeItem('currentUser');
+            checkAuth();
+            alert('登录状态已清除');
+        }
+
+        // 检查存储
+        function checkStorage() {
+            const statusEl = document.getElementById('storage-status');
+            const resultEl = document.getElementById('storage-result');
+            
+            const keys = Object.keys(localStorage);
+            const aiKeys = keys.filter(key => key.includes('ai_subscription') || key === 'currentUser');
+            
+            statusEl.className = 'status success';
+            statusEl.textContent = '正常';
+            
+            resultEl.innerHTML = `
+                <strong>存储键值：</strong><br>
+                ${aiKeys.length > 0 ? aiKeys.map(key => {
+                    const value = localStorage.getItem(key);
+                    const preview = value && value.length > 100 ? value.substring(0, 100) + '...' : value;
+                    return `${key}: ${preview}`;
+                }).join('<br>') : '没有相关数据'}
+            `;
+        }
+
+        // 清除所有数据
+        function clearStorage() {
+            if (confirm('确定要清除所有数据吗？这将删除所有用户和订阅信息。')) {
+                const keys = Object.keys(localStorage);
+                keys.forEach(key => {
+                    if (key.includes('ai_subscription') || key === 'currentUser') {
+                        localStorage.removeItem(key);
+                    }
+                });
+                checkAuth();
+                checkStorage();
+                alert('所有数据已清除');
+            }
+        }
+
+        // 管理员登录
+        function loginAsAdmin() {
+            const adminUser = {
+                id: 'admin_001',
+                username: 'admin',
+                email: 'admin@company.com',
+                company: '科技有限公司',
+                role: '管理员'
+            };
+            localStorage.setItem('currentUser', JSON.stringify(adminUser));
+            checkAuth();
+            alert('已作为管理员登录');
+        }
+
+        // 普通用户登录
+        function loginAsUser() {
+            const normalUser = {
+                id: 'user_001',
+                username: 'user1',
+                email: 'user1@company.com',
+                company: '科技有限公司',
+                role: '普通用户'
+            };
+            localStorage.setItem('currentUser', JSON.stringify(normalUser));
+            checkAuth();
+            alert('已作为普通用户登录');
+        }
+
+        // 退出登录
+        function logout() {
+            localStorage.removeItem('currentUser');
+            checkAuth();
+            alert('已退出登录');
+        }
+
+        // 显示系统信息
+        function showSystemInfo() {
+            document.getElementById('browser-info').textContent = navigator.userAgent.substring(0, 50) + '...';
+            document.getElementById('screen-info').textContent = `${window.screen.width} x ${window.screen.height}`;
+            document.getElementById('time-info').textContent = new Date().toLocaleString('zh-CN');
+            document.getElementById('storage-available').textContent = typeof(Storage) !== "undefined" ? '是' : '否';
+        }
+
+        // 页面加载时执行
+        window.onload = function() {
+            checkAuth();
+            checkStorage();
+            showSystemInfo();
+        };
+    </script>
+</body>
+</html>

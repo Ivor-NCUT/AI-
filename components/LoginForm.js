@@ -22,7 +22,11 @@ function LoginForm() {
         const result = await authenticateUser(formData.username.trim(), formData.password);
         if (result) {
           setCurrentUser(result);
-          window.location.href = 'index.html';
+          console.log('登录成功，正在跳转到主页...');
+          // 使用 replace 避免后退问题
+          setTimeout(() => {
+            window.location.replace('index.html');
+          }, 100);
         } else {
           setError('密码错误，请检查后重试');
         }

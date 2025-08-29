@@ -44,11 +44,8 @@ function LoginApp() {
     }, [theme]);
 
     React.useEffect(() => {
-      // Check if user is already logged in
-      const currentUser = getCurrentUser();
-      if (currentUser) {
-        window.location.href = 'index.html';
-      }
+      // 检查用户是否已登录，如果已登录则跳转到主页
+      checkAuthForLogin();
     }, []);
 
     const toggleTheme = () => {

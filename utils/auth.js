@@ -99,19 +99,37 @@ function getCurrentUser() {
 
 // 用户登出
 function logout() {
+  console.log('用户正在退出登录...');
   localStorage.removeItem('currentUser');
-  window.location.href = 'login.html';
+  // 清除所有相关数据
+  localStorage.removeItem('ai_subscription_subscriptions');
+  // 使用 replace 避免后退问题
+  window.location.replace('login.html');
 }
 
-// 检查用户是否已登录
+// 检查用户是否已登录（用于主页面）
 function requireAuth() {
   const user = getCurrentUser();
   if (!user) {
-    // Only redirect if not already on login page
+    // 未登录时重定向到登录页
     if (!window.location.pathname.includes('login.html')) {
-      window.location.href = 'login.html';
+      console.log('用户未登录，重定向到登录页面...');
+      window.location.replace('login.html');
     }
     return null;
   }
+  console.log('用户已登录:', user.username);
   return user;
+}
+
+// 检查用户是否已登录（用于登录页面）
+function checkAuthForLogin() {
+  const user = getCurrentUser();
+  if (user) {
+    // 已登录时重定向到主页
+    console.log('用户已登录，重定向到主页面...');
+    window.location.replace('index.html');
+    return true;
+  }
+  return false;
 }
