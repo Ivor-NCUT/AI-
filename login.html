@@ -18,84 +18,23 @@
     <link href="https://resource.trickle.so/vendor_lib/unpkg/lucide-static@0.516.0/font/lucide.css" rel="stylesheet">
 
     <style type="text/tailwindcss">
-    @layer theme {
-        :root {
-            --primary-color: #10b981;
-            --secondary-color: #059669;
-            --accent-color: #34d399;
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-tertiary: #f1f5f9;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-        }
-
-        [data-theme="dark"] {
-            --primary-color: #10b981;
-            --secondary-color: #059669;
-            --accent-color: #34d399;
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-tertiary: #334155;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
-        }
-    }
-
     @layer base {
         body {
-            @apply bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300;
-        }
-        
-        * {
-            @apply border-[var(--border-color)];
+            @apply bg-[#0a0f1f] text-white;
         }
     }
 
     @layer components {
         .btn-primary {
-            @apply bg-gradient-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:shadow-lg hover:scale-105 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] w-full;
+            @apply bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 w-full;
         }
         
         .input-field {
-            @apply w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200;
+            @apply w-full px-4 py-3 bg-[#0a0f1f] border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-white placeholder-gray-500;
         }
         
         .login-card {
-            @apply bg-[var(--bg-secondary)] rounded-2xl p-8 shadow-2xl border border-[var(--border-color)] w-full max-w-md backdrop-blur-xl;
-        }
-    }
-    
-    @layer utilities {
-        .text-gradient {
-            @apply bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] bg-clip-text text-transparent font-bold;
-        }
-        
-        .fade-in {
-            @apply opacity-0 translate-y-4 transition-all duration-500;
-        }
-        
-        .fade-in-active {
-            @apply opacity-100 translate-y-0;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-        
-        .float-animation {
-            animation: float 4s ease-in-out infinite;
+            @apply bg-[#0f1623] rounded-2xl p-8 shadow-2xl w-full max-w-md;
         }
     }
     </style>

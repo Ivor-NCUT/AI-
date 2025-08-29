@@ -1,6 +1,6 @@
 // 认证相关函数
 
-// 用户登录认证（支持自动注册）
+// 用户登录认证（支持自动注册，所有用户都是普通用户）
 async function authenticateUser(username, password) {
   try {
     // 初始化默认用户（如果数据库为空）
@@ -8,24 +8,24 @@ async function authenticateUser(username, password) {
     try {
       users = await trickleListObjects('user', 100, true);
     } catch (error) {
-      // 如果获取用户列表失败，可能是数据库尚未初始化，创建默认用户
-      console.log('Initializing database with default users...');
+      // 如果获取用户列表失败，可能是数据库尚未初始化
+      console.log('Initializing database...');
       users = { items: [] };
     }
     
     // 如果数据库为空且是默认账户，创建默认用户
-    if (users.items.length === 0 && (username === 'admin' || username === 'user1')) {
-      const defaultUsers = [
-        { username: 'admin', password: '123456', email: 'admin@company.com', company: '科技有限公司', role: '管理员' },
-        { username: 'user1', password: 'password', email: 'user1@company.com', company: '科技有限公司', role: '普通用户' }
-      ];
+    if (users.items.length === 0 && username === 'admin') {
+      const defaultUser = {
+        username: 'admin',
+        password: '123456',
+        email: 'admin@company.com',
+        company: '科技有限公司'
+      };
       
-      for (const userData of defaultUsers) {
-        try {
-          await trickleCreateObject('user', userData);
-        } catch (createError) {
-          console.warn('Failed to create default user:', userData.username, createError);
-        }
+      try {
+        await trickleCreateObject('user', defaultUser);
+      } catch (createError) {
+        console.warn('Failed to create default user:', createError);
       }
       
       // 重新获取用户列表
@@ -48,8 +48,7 @@ async function authenticateUser(username, password) {
           id: existingUser.objectId,
           username: existingUser.objectData.username,
           email: existingUser.objectData.email || `${username}@company.com`,
-          company: existingUser.objectData.company || '科技有限公司',
-          role: existingUser.objectData.role || '普通用户'
+          company: existingUser.objectData.company || '科技有限公司'
         };
       } else {
         return null; // 密码错误
@@ -61,16 +60,14 @@ async function authenticateUser(username, password) {
           username: username,
           password: password,
           email: `${username}@company.com`,
-          company: '科技有限公司',
-          role: '普通用户'
+          company: '科技有限公司'
         });
         
         return {
           id: newUser.objectId,
           username: newUser.objectData.username,
           email: newUser.objectData.email,
-          company: newUser.objectData.company,
-          role: newUser.objectData.role
+          company: newUser.objectData.company
         };
       } catch (createError) {
         console.error('Failed to create new user:', createError);
