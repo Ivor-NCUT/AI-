@@ -1,7 +1,7 @@
 {
-  "name": "ai-subscription-manager",
-  "version": "2.0.0",
-  "description": "企业级AI产品订阅管理系统 - 支持多种计费模式和用户管理",
+  "name": "nosam-subscription-manager",
+  "version": "2.1.0",
+  "description": "管订 NoSam - 管理你的AI产品订阅，告诉Sam Altman: No!",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

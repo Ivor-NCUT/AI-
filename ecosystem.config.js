@@ -1,6 +1,6 @@
 module.exports = {
   apps: [{
-    name: 'ai-subscription-manager',
+    name: 'nosam-manager',
     script: './server.js',
     instances: 1,
     autorestart: true,

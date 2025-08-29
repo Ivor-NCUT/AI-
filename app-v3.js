@@ -1,5 +1,5 @@
-// AI产品订阅管理系统 - 主应用逻辑 v3
-// 支持自定义产品、多币种和用户设置
+// 管订 NoSam - 主应用逻辑 v3
+// 管理你的AI产品订阅，支持自定义产品、多币种和用户设置
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState(null);
@@ -176,15 +176,15 @@ function App() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">AI</span>
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">管</span>
                 </div>
                 <div>
                   <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    AI订阅管理
+                    管订 <span className="text-blue-500 font-bold">NoSam</span>
                   </h1>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    企业级订阅管理系统
+                    管理你的 AI 产品订阅
                   </p>
                 </div>
               </div>
@@ -246,10 +246,10 @@ function App() {
         {/* 页面标题 */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            AI产品订阅管理
+            我的 AI 订阅
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
-            统一管理企业AI产品订阅，优化成本配置
+            告诉 Sam Altman：No！我的订阅我做主
           </p>
         </div>
 
