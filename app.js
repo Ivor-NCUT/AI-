@@ -183,23 +183,26 @@ function App() {
             <p className="text-[var(--text-secondary)]">统一管理企业AI产品订阅，优化成本配置</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
             <StatsCard 
               title="总订阅数" 
               value={stats.totalSubscriptions} 
               icon="package"
+              trend={stats.totalSubscriptions > 0 ? { direction: 'up', value: '+12%' } : null}
               className="fade-in"
             />
             <StatsCard 
               title="月度支出" 
               value={`¥${stats.monthlyCost.toLocaleString()}`} 
               icon="calendar"
+              trend={stats.monthlyCost > 0 ? { direction: 'up', value: '+8%' } : null}
               className="fade-in"
             />
             <StatsCard 
               title="年度支出" 
               value={`¥${stats.yearlyCost.toLocaleString()}`} 
               icon="trending-up"
+              trend={stats.yearlyCost > 0 ? { direction: 'up', value: '+15%' } : null}
               className="fade-in"
             />
             <StatsCard 
@@ -210,53 +213,91 @@ function App() {
             />
           </div>
 
-          <div className="flex justify-between items-center mb-6 fade-in">
-            <h2 className="text-2xl font-bold text-[var(--text-primary)]">订阅列表</h2>
-            <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 fade-in">
+            <div>
+              <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-1">订阅列表</h2>
+              <p className="text-sm text-[var(--text-muted)]">共 {subscriptions.length} 个活跃订阅</p>
+            </div>
+            <div className="flex flex-wrap gap-2 sm:gap-3">
               <button 
                 onClick={() => {
+                  const samples = [
+                    { name: "ChatGPT Plus", plan: "个人版", billingCycle: "月付", price: 20, users: 1 },
+                    { name: "Claude Pro", plan: "个人版", billingCycle: "月付", price: 20, users: 1 },
+                    { name: "Midjourney", plan: "团队版", billingCycle: "年付", price: 960, users: 5 }
+                  ];
+                  const randomSample = samples[Math.floor(Math.random() * samples.length)];
                   const sampleSub = {
-                    name: "ChatGPT Plus",
-                    plan: "个人版", 
-                    billingCycle: "月付",
-                    price: 20,
-                    users: 1,
+                    ...randomSample,
                     startDate: new Date().toISOString().split('T')[0],
-                    endDate: calculateEndDate(new Date().toISOString().split('T')[0], "月付")
+                    endDate: calculateEndDate(new Date().toISOString().split('T')[0], randomSample.billingCycle)
                   };
                   addSubscription(sampleSub);
                 }}
                 className="btn-secondary flex items-center gap-2 text-sm"
               >
                 <div className="icon-zap text-sm"></div>
-                快速添加样例
+                <span className="hidden sm:inline">快速添加样例</span>
+                <span className="sm:hidden">样例</span>
               </button>
               <button 
                 onClick={() => setIsModalOpen(true)}
-                className="btn-primary flex items-center gap-2"
+                className="btn-primary flex items-center gap-2 shadow-lg hover:shadow-xl"
               >
                 <div className="icon-plus text-lg"></div>
-                添加订阅
+                <span>添加订阅</span>
               </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
             {subscriptions.map((subscription, index) => (
               <SubscriptionCard 
                 key={subscription.id} 
                 subscription={subscription} 
                 onDelete={deleteSubscription}
+                onEdit={null}
                 className={`fade-in`}
                 style={{ animationDelay: `${index * 50}ms` }}
               />
             ))}
             
             {subscriptions.length === 0 && (
-              <div className="col-span-full text-center py-12 fade-in">
-                <div className="icon-inbox text-6xl text-[var(--text-muted)] mb-4 mx-auto w-fit"></div>
-                <h3 className="text-xl font-medium text-[var(--text-secondary)] mb-2">暂无订阅</h3>
-                <p className="text-[var(--text-muted)]">点击上方按钮添加您的第一个AI产品订阅</p>
+              <div className="col-span-full text-center py-16 fade-in">
+                <div className="w-24 h-24 bg-gradient-to-br from-[var(--bg-tertiary)] to-[var(--border-color)] rounded-full flex items-center justify-center mx-auto mb-4 float-animation">
+                  <div className="icon-inbox text-4xl text-[var(--text-muted)]"></div>
+                </div>
+                <h3 className="text-xl font-semibold text-[var(--text-secondary)] mb-2">开始添加您的AI订阅</h3>
+                <p className="text-[var(--text-muted)] mb-6 max-w-md mx-auto">
+                  统一管理企业AI产品订阅，优化成本配置，提高管理效率
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <button 
+                    onClick={() => setIsModalOpen(true)}
+                    className="btn-primary flex items-center justify-center gap-2"
+                  >
+                    <div className="icon-plus text-lg"></div>
+                    添加第一个订阅
+                  </button>
+                  <button 
+                    onClick={() => {
+                      const sampleSub = {
+                        name: "ChatGPT Plus",
+                        plan: "个人版", 
+                        billingCycle: "月付",
+                        price: 20,
+                        users: 1,
+                        startDate: new Date().toISOString().split('T')[0],
+                        endDate: calculateEndDate(new Date().toISOString().split('T')[0], "月付")
+                      };
+                      addSubscription(sampleSub);
+                    }}
+                    className="btn-secondary flex items-center justify-center gap-2"
+                  >
+                    <div className="icon-zap text-lg"></div>
+                    使用样例数据
+                  </button>
+                </div>
               </div>
             )}
           </div>

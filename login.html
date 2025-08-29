@@ -64,7 +64,7 @@
 
     @layer components {
         .btn-primary {
-            @apply bg-[var(--primary-color)] text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:bg-[var(--secondary-color)] hover:scale-105 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] w-full;
+            @apply bg-gradient-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:shadow-lg hover:scale-105 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] w-full;
         }
         
         .input-field {
@@ -72,7 +72,30 @@
         }
         
         .login-card {
-            @apply bg-[var(--bg-secondary)] rounded-2xl p-8 shadow-[var(--shadow-lg)] border border-[var(--border-color)] w-full max-w-md;
+            @apply bg-[var(--bg-secondary)] rounded-2xl p-8 shadow-2xl border border-[var(--border-color)] w-full max-w-md backdrop-blur-xl;
+        }
+    }
+    
+    @layer utilities {
+        .text-gradient {
+            @apply bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] bg-clip-text text-transparent font-bold;
+        }
+        
+        .fade-in {
+            @apply opacity-0 translate-y-4 transition-all duration-500;
+        }
+        
+        .fade-in-active {
+            @apply opacity-100 translate-y-0;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .float-animation {
+            animation: float 4s ease-in-out infinite;
         }
     }
     </style>
@@ -80,6 +103,7 @@
 </head>
 <body>
     <div id="root"></div>
+    <script type="text/babel" src="utils/storage.js"></script>
     <script type="text/babel" src="components/LoginForm.js"></script>
     <script type="text/babel" src="utils/auth.js"></script>
     <script type="text/babel" src="login-app.js"></script>

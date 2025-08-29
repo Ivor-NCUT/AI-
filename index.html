@@ -25,6 +25,9 @@
             --primary-color: #10b981;
             --secondary-color: #059669;
             --accent-color: #34d399;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --info-color: #3b82f6;
             --bg-primary: #ffffff;
             --bg-secondary: #f8fafc;
             --bg-tertiary: #f1f5f9;
@@ -35,12 +38,16 @@
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
         }
 
         [data-theme="dark"] {
             --primary-color: #10b981;
             --secondary-color: #059669;
             --accent-color: #34d399;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --info-color: #3b82f6;
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
             --bg-tertiary: #334155;
@@ -51,6 +58,7 @@
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5);
         }
     }
 
@@ -66,15 +74,19 @@
 
     @layer components {
         .btn-primary {
-            @apply bg-[var(--primary-color)] text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-[var(--secondary-color)] hover:scale-105 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)];
+            @apply bg-[var(--primary-color)] text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-[var(--secondary-color)] hover:scale-105 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] active:scale-100;
         }
         
         .btn-secondary {
-            @apply bg-[var(--bg-tertiary)] text-[var(--text-primary)] px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-[var(--border-color)] hover:scale-105 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)];
+            @apply bg-[var(--bg-tertiary)] text-[var(--text-primary)] px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-[var(--border-color)] hover:scale-105 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] active:scale-100;
+        }
+        
+        .btn-danger {
+            @apply bg-[var(--danger-color)] text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-red-600 hover:scale-105 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] active:scale-100;
         }
         
         .card {
-            @apply bg-[var(--bg-secondary)] rounded-xl p-6 shadow-[var(--shadow-md)] border border-[var(--border-color)] transition-all duration-200 hover:shadow-[var(--shadow-lg)] hover:scale-[1.02];
+            @apply bg-[var(--bg-secondary)] rounded-xl p-6 shadow-[var(--shadow-md)] border border-[var(--border-color)] transition-all duration-300 hover:shadow-[var(--shadow-xl)] hover:border-[var(--primary-color)] hover:scale-[1.01];
         }
         
         .input-field {
@@ -82,22 +94,30 @@
         }
         
         .theme-toggle {
-            @apply w-12 h-6 bg-[var(--border-color)] rounded-full relative cursor-pointer transition-all duration-300;
+            @apply w-14 h-7 bg-gradient-to-r from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 rounded-full relative cursor-pointer transition-all duration-300 hover:shadow-md;
         }
         
         .theme-toggle::after {
             content: '';
-            @apply absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-300;
+            @apply absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-300;
+        }
+        
+        [data-theme="dark"] .theme-toggle {
+            @apply bg-gradient-to-r from-[var(--primary-color)] to-[var(--secondary-color)];
         }
         
         [data-theme="dark"] .theme-toggle::after {
-            @apply transform translate-x-6;
+            @apply transform translate-x-7 bg-gray-900;
+        }
+        
+        .stats-card {
+            @apply bg-gradient-to-br from-[var(--bg-secondary)] to-[var(--bg-tertiary)] rounded-xl p-6 shadow-[var(--shadow-md)] border border-[var(--border-color)] transition-all duration-300 hover:shadow-[var(--shadow-lg)] hover:scale-[1.02];
         }
     }
 
     @layer utilities {
         .text-gradient {
-            @apply bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] bg-clip-text text-transparent;
+            @apply bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] bg-clip-text text-transparent font-bold;
         }
         
         .fade-in {
@@ -107,12 +127,61 @@
         .fade-in-active {
             @apply opacity-100 translate-y-0;
         }
+        
+        .slide-in-left {
+            @apply -translate-x-full opacity-0 transition-all duration-500;
+        }
+        
+        .slide-in-left-active {
+            @apply translate-x-0 opacity-100;
+        }
+        
+        .slide-in-right {
+            @apply translate-x-full opacity-0 transition-all duration-500;
+        }
+        
+        .slide-in-right-active {
+            @apply translate-x-0 opacity-100;
+        }
+        
+        .pulse-animation {
+            @apply animate-pulse;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes slideInBottom {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .slide-in-bottom {
+            animation: slideInBottom 0.3s ease-out;
+        }
+        
+        .slide-in-bottom-active {
+            animation: slideInBottom 0.3s ease-out;
+        }
     }
     </style>
 
 </head>
 <body>
     <div id="root"></div>
+    <script type="text/babel" src="utils/storage.js"></script>
     <script type="text/babel" src="components/Header.js"></script>
     <script type="text/babel" src="components/SubscriptionCard.js"></script>
     <script type="text/babel" src="components/AddSubscriptionModal.js"></script>

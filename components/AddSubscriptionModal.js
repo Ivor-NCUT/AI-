@@ -46,11 +46,22 @@ function AddSubscriptionModal({ onClose, onSubmit }) {
     };
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" data-name="add-subscription-modal" data-file="components/AddSubscriptionModal.js">
-        <div className="bg-[var(--bg-primary)] rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4 fade-in fade-in-active" data-name="add-subscription-modal" data-file="components/AddSubscriptionModal.js">
+        <div className="bg-[var(--bg-primary)] rounded-2xl shadow-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto border border-[var(--border-color)] slide-in-bottom slide-in-bottom-active">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-[var(--text-primary)]">添加订阅</h2>
-            <button onClick={onClose} className="text-[var(--text-muted)] hover:text-[var(--text-primary)]">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-[var(--primary-color)] to-[var(--accent-color)] rounded-lg flex items-center justify-center">
+                <div className="icon-plus text-xl text-white"></div>
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-[var(--text-primary)]">添加新订阅</h2>
+                <p className="text-xs text-[var(--text-muted)]">填写AI产品订阅信息</p>
+              </div>
+            </div>
+            <button 
+              onClick={onClose} 
+              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] p-2 hover:bg-[var(--bg-tertiary)] rounded-lg transition-all"
+            >
               <div className="icon-x text-xl"></div>
             </button>
           </div>
@@ -67,14 +78,29 @@ function AddSubscriptionModal({ onClose, onSubmit }) {
                 required
               />
               <div className="mt-2 flex flex-wrap gap-2">
-                {['ChatGPT Plus', 'Claude Pro', 'Midjourney', 'GitHub Copilot', 'Notion AI'].map(name => (
+                {[
+                  { name: 'ChatGPT Plus', price: 20, cycle: '月付' },
+                  { name: 'Claude Pro', price: 20, cycle: '月付' },
+                  { name: 'Midjourney', price: 10, cycle: '月付' },
+                  { name: 'GitHub Copilot', price: 10, cycle: '月付' },
+                  { name: 'Notion AI', price: 10, cycle: '月付' }
+                ].map(item => (
                   <button
-                    key={name}
+                    key={item.name}
                     type="button"
-                    onClick={() => setFormData(prev => ({ ...prev, name }))}
-                    className="px-2 py-1 text-xs bg-[var(--bg-tertiary)] text-[var(--text-secondary)] rounded hover:bg-[var(--border-color)] transition-colors"
+                    onClick={() => setFormData(prev => ({ 
+                      ...prev, 
+                      name: item.name,
+                      price: item.price.toString(),
+                      billingCycle: item.cycle
+                    }))}
+                    className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
+                      formData.name === item.name 
+                        ? 'bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] text-white shadow-md' 
+                        : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--border-color)]'
+                    }`}
                   >
-                    {name}
+                    {item.name}
                   </button>
                 ))}
               </div>
@@ -147,31 +173,46 @@ function AddSubscriptionModal({ onClose, onSubmit }) {
             </div>
 
             {calculatedValues.endDate && (
-              <div className="bg-[var(--bg-secondary)] p-4 rounded-lg space-y-2">
-                <h3 className="text-sm font-medium text-[var(--text-primary)]">计算结果预览</h3>
-                <div className="text-sm text-[var(--text-secondary)] space-y-1">
-                  <div className="flex justify-between">
-                    <span>结束日期:</span>
-                    <span>{calculatedValues.endDate}</span>
+              <div className="bg-gradient-to-br from-[var(--bg-secondary)] to-[var(--bg-tertiary)] p-4 rounded-xl border border-[var(--border-color)] space-y-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="icon-calculator text-sm text-[var(--primary-color)]"></div>
+                  <h3 className="text-sm font-semibold text-[var(--text-primary)]">费用计算预览</h3>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-[var(--bg-primary)] rounded-lg p-2">
+                    <div className="text-xs text-[var(--text-muted)] mb-1">结束日期</div>
+                    <div className="text-sm font-medium text-[var(--text-primary)]">{calculatedValues.endDate}</div>
                   </div>
-                  <div className="flex justify-between">
-                    <span>月度等价:</span>
-                    <span>¥{calculatedValues.monthlyEquivalent.toLocaleString()}</span>
+                  <div className="bg-[var(--bg-primary)] rounded-lg p-2">
+                    <div className="text-xs text-[var(--text-muted)] mb-1">月度等价</div>
+                    <div className="text-sm font-medium text-[var(--text-primary)]">¥{calculatedValues.monthlyEquivalent.toLocaleString()}</div>
                   </div>
-                  <div className="flex justify-between font-medium">
-                    <span>总成本:</span>
-                    <span className="text-[var(--primary-color)]">¥{calculatedValues.totalCost.toLocaleString()}</span>
+                </div>
+                <div className="bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] rounded-lg p-3 text-white">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium">预计总成本</span>
+                    <span className="text-xl font-bold">¥{calculatedValues.totalCost.toLocaleString()}</span>
                   </div>
                 </div>
               </div>
             )}
 
             <div className="flex gap-3 pt-4">
-              <button type="button" onClick={onClose} className="btn-secondary flex-1">
-                取消
+              <button 
+                type="button" 
+                onClick={onClose} 
+                className="btn-secondary flex-1 flex items-center justify-center gap-2"
+              >
+                <div className="icon-x text-base"></div>
+                <span>取消</span>
               </button>
-              <button type="submit" className="btn-primary flex-1">
-                添加订阅
+              <button 
+                type="submit" 
+                className="btn-primary flex-1 flex items-center justify-center gap-2"
+                disabled={!formData.name || !formData.price}
+              >
+                <div className="icon-check text-base"></div>
+                <span>确认添加</span>
               </button>
             </div>
           </form>

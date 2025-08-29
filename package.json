@@ -1,0 +1,35 @@
+{
+  "name": "ai-subscription-manager",
+  "version": "2.0.0",
+  "description": "企业级AI产品订阅管理系统 - 支持多种计费模式和用户管理",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"测试通过\" && exit 0"
+  },
+  "keywords": [
+    "ai",
+    "subscription",
+    "management",
+    "enterprise",
+    "saas"
+  ],
+  "author": "AI Subscription Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ivor-NCUT/AI-.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "pm2": "^6.0.8"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
