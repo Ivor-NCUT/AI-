@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI产品订阅管理系统</title>
+    <meta name="description" content="企业AI产品订阅管理系统，支持月付制和年付制产品管理">
+    <meta name="keywords" content="AI订阅,产品管理,企业管理,订阅系统">
+    <meta property="og:title" content="AI产品订阅管理系统">
+    <meta property="og:description" content="企业AI产品订阅管理系统，支持月付制和年付制产品管理">
+    <meta name="twitter:title" content="AI产品订阅管理系统">
+    <meta name="twitter:description" content="企业AI产品订阅管理系统，支持月付制和年付制产品管理">
+
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react@18/umd/react.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://resource.trickle.so/vendor_lib/unpkg/lucide-static@0.516.0/font/lucide.css" rel="stylesheet">
+
+    <!-- Predefined Tailwind CSS, use it as needed, or update base on your -->
+    <style type="text/tailwindcss">
+    @layer theme {
+        :root {
+            --primary-color: #10b981;
+            --secondary-color: #059669;
+            --accent-color: #34d399;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #10b981;
+            --secondary-color: #059669;
+            --accent-color: #34d399;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
+        }
+    }
+
+    @layer base {
+        body {
+            @apply bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300;
+        }
+        
+        * {
+            @apply border-[var(--border-color)];
+        }
+    }
+
+    @layer components {
+        .btn-primary {
+            @apply bg-[var(--primary-color)] text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-[var(--secondary-color)] hover:scale-105 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)];
+        }
+        
+        .btn-secondary {
+            @apply bg-[var(--bg-tertiary)] text-[var(--text-primary)] px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-[var(--border-color)] hover:scale-105 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)];
+        }
+        
+        .card {
+            @apply bg-[var(--bg-secondary)] rounded-xl p-6 shadow-[var(--shadow-md)] border border-[var(--border-color)] transition-all duration-200 hover:shadow-[var(--shadow-lg)] hover:scale-[1.02];
+        }
+        
+        .input-field {
+            @apply w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200;
+        }
+        
+        .theme-toggle {
+            @apply w-12 h-6 bg-[var(--border-color)] rounded-full relative cursor-pointer transition-all duration-300;
+        }
+        
+        .theme-toggle::after {
+            content: '';
+            @apply absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-300;
+        }
+        
+        [data-theme="dark"] .theme-toggle::after {
+            @apply transform translate-x-6;
+        }
+    }
+
+    @layer utilities {
+        .text-gradient {
+            @apply bg-gradient-to-r from-[var(--primary-color)] to-[var(--accent-color)] bg-clip-text text-transparent;
+        }
+        
+        .fade-in {
+            @apply opacity-0 translate-y-4 transition-all duration-500;
+        }
+        
+        .fade-in-active {
+            @apply opacity-100 translate-y-0;
+        }
+    }
+    </style>
+
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel" src="components/Header.js"></script>
+    <script type="text/babel" src="components/SubscriptionCard.js"></script>
+    <script type="text/babel" src="components/AddSubscriptionModal.js"></script>
+    <script type="text/babel" src="components/StatsCard.js"></script>
+    <script type="text/babel" src="utils/calculations.js"></script>
+    <script type="text/babel" src="utils/auth.js"></script>
+    <script type="text/babel" src="app.js"></script>
+</body>
+</html>
