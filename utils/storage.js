@@ -318,3 +318,8 @@ if (typeof module !== 'undefined' && module.exports) {
     trickleClearCollection
   };
 }
+
+// 确保函数在全局可用
+if (typeof window !== 'undefined') {
+  window.trickleUpdateObject = trickleUpdateObject;
+}
