@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI产品订阅管理系统</title>
-    <meta name="description" content="企业AI产品订阅管理系统，支持多币种和自定义产品">
+    <meta name="description" content="企业AI产品订阅管理系统，支持月付制和年付制产品管理">
     
     <!-- React和相关库 -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -99,7 +99,7 @@
             }
             
             table {
-                min-width: 800px;
+                min-width: 600px;
             }
         }
         
@@ -132,14 +132,8 @@
     <script type="text/babel" src="utils/storage.js"></script>
     <script type="text/babel" src="utils/auth.js"></script>
     <script type="text/babel" src="utils/calculations.js"></script>
-    <script type="text/babel" src="utils/currency.js"></script>
-    <script type="text/babel" src="components/AddEditSubscriptionModal-v2.js"></script>
-    <script type="text/babel">
-        // 重命名组件避免冲突
-        window.AddEditSubscriptionModal = window.AddEditSubscriptionModal || AddEditSubscriptionModal;
-    </script>
-    <script type="text/babel" src="components/SettingsModal.js"></script>
-    <script type="text/babel" src="app-v3.js"></script>
+    <script type="text/babel" src="components/AddEditSubscriptionModal.js"></script>
+    <script type="text/babel" src="app-v2.js"></script>
     
     <script>
         // 设置初始主题

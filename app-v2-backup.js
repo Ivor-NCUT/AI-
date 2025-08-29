@@ -1,15 +1,13 @@
-// AI产品订阅管理系统 - 主应用逻辑 v3
-// 支持自定义产品、多币种和用户设置
+// AI产品订阅管理系统 - 主应用逻辑 v2
+// 简洁版界面设计
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState(null);
   const [subscriptions, setSubscriptions] = React.useState([]);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
   const [editingSubscription, setEditingSubscription] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [searchTerm, setSearchTerm] = React.useState('');
-  const [displayCurrency, setDisplayCurrency] = React.useState(getUserDisplayCurrency());
   const [theme, setTheme] = React.useState(() => {
     const saved = localStorage.getItem('theme');
     if (saved) return saved;
@@ -50,14 +48,12 @@ function App() {
             productName: item.objectData.productName || item.objectData.name,
             plan: item.objectData.plan,
             billingCycle: item.objectData.billingCycle,
-            currency: item.objectData.currency || 'CNY',
             price: parseFloat(item.objectData.price) || 0,
             users: parseInt(item.objectData.users) || 1,
             startDate: item.objectData.startDate,
             endDate: item.objectData.endDate,
             status: item.objectData.status || 'active',
-            autoRenew: item.objectData.autoRenew !== false,
-            isCustomProduct: item.objectData.isCustomProduct || false
+            autoRenew: item.objectData.autoRenew !== false
           }));
         setSubscriptions(filteredSubs);
       } else {
@@ -130,16 +126,32 @@ function App() {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
-  const handleSettingsSave = (settings) => {
-    setDisplayCurrency(settings.displayCurrency);
-    // 强制重新渲染以更新显示
-    setSubscriptions([...subscriptions]);
-  };
-
-  // 计算统计数据（支持多币种）
+  // 计算统计数据
   const stats = React.useMemo(() => {
-    return calculateStatsWithCurrency(subscriptions, displayCurrency);
-  }, [subscriptions, displayCurrency]);
+    const total = subscriptions.length;
+    const monthlyTotal = subscriptions.reduce((sum, sub) => {
+      const monthly = sub.billingCycle === '年付' 
+        ? Math.round(sub.price / 12 * sub.users)
+        : sub.price * sub.users;
+      return sum + monthly;
+    }, 0);
+    
+    const yearlyTotal = subscriptions.reduce((sum, sub) => {
+      const yearly = sub.billingCycle === '年付'
+        ? sub.price * sub.users
+        : sub.price * sub.users * 12;
+      return sum + yearly;
+    }, 0);
+    
+    const avgPrice = total > 0 ? Math.round(monthlyTotal / total) : 0;
+    
+    return {
+      total,
+      monthlyTotal,
+      yearlyTotal,
+      avgPrice
+    };
+  }, [subscriptions]);
 
   // 过滤订阅
   const filteredSubscriptions = React.useMemo(() => {
@@ -191,17 +203,6 @@ function App() {
             </div>
             
             <div className="flex items-center space-x-4">
-              <button
-                onClick={() => setIsSettingsOpen(true)}
-                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                title="设置"
-              >
-                <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </button>
-              
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -274,12 +275,9 @@ function App() {
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  月度支出 
-                  <span className="text-xs ml-1">({displayCurrency})</span>
-                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">月度支出</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-                  {formatCurrency(stats.monthlyTotal, displayCurrency)}
+                  ¥{stats.monthlyTotal.toLocaleString()}
                 </p>
               </div>
               <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
@@ -293,12 +291,9 @@ function App() {
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  年度支出
-                  <span className="text-xs ml-1">({displayCurrency})</span>
-                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">年度支出</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-                  {formatCurrency(stats.yearlyTotal, displayCurrency)}
+                  ¥{stats.yearlyTotal.toLocaleString()}
                 </p>
               </div>
               <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
@@ -312,12 +307,9 @@ function App() {
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  平均单价
-                  <span className="text-xs ml-1">({displayCurrency})</span>
-                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">平均单价</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-                  {formatCurrency(stats.avgPrice, displayCurrency)}
+                  ¥{stats.avgPrice.toLocaleString()}
                 </p>
               </div>
               <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center">
@@ -402,17 +394,9 @@ function App() {
                 </thead>
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   {filteredSubscriptions.map((sub) => {
-                    // 计算月度等价（原币种）
-                    let monthlyInOriginal = sub.price * sub.users;
-                    if (sub.billingCycle === '年付') {
-                      monthlyInOriginal = monthlyInOriginal / 12;
-                    } else if (sub.billingCycle === '季付') {
-                      monthlyInOriginal = monthlyInOriginal / 3;
-                    }
-                    
-                    // 转换为显示货币
-                    const monthlyInDisplay = convertCurrency(monthlyInOriginal, sub.currency, displayCurrency);
-                    
+                    const monthlyEquivalent = sub.billingCycle === '年付' 
+                      ? Math.round(sub.price / 12 * sub.users)
+                      : sub.price * sub.users;
                     const daysRemaining = Math.max(0, Math.ceil((new Date(sub.endDate) - new Date()) / (1000 * 60 * 60 * 24)));
                     const isExpiringSoon = daysRemaining <= 30;
                     const isExpired = daysRemaining === 0;
@@ -420,15 +404,8 @@ function App() {
                     return (
                       <tr key={sub.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="text-sm font-medium text-gray-900 dark:text-white">
-                              {sub.productName}
-                            </div>
-                            {sub.isCustomProduct && (
-                              <span className="ml-2 px-2 py-0.5 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full">
-                                自定义
-                              </span>
-                            )}
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">
+                            {sub.productName}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -444,13 +421,13 @@ function App() {
                           {sub.billingCycle}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                          {formatCurrency(sub.price, sub.currency, true)}
+                          ¥{sub.price.toLocaleString()}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                           {sub.users}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-emerald-600 dark:text-emerald-400">
-                          {formatCurrency(monthlyInDisplay, displayCurrency)}
+                          ¥{monthlyEquivalent.toLocaleString()}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                           <div>
@@ -524,14 +501,6 @@ function App() {
             setEditingSubscription(null);
           }}
           onSubmit={addOrUpdateSubscription}
-        />
-      )}
-      
-      {/* 设置弹窗 */}
-      {isSettingsOpen && (
-        <SettingsModal
-          onClose={() => setIsSettingsOpen(false)}
-          onSave={handleSettingsSave}
         />
       )}
     </div>
