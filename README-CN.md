@@ -1,7 +1,7 @@
 # 🗓️ 管订 NoSam - AI 产品订阅管理工具
 
 <div align="center">
-  <img src="assets/images/logo.png" alt="管订 NoSam Logo" width="128" height="128" />
+  <img src="assets/images/管订NoSam 产品图标.png" alt="管订 NoSam Logo" width="128" height="128" />
   <h3>优雅地管理你的 AI 订阅</h3>
   <p>告别订阅混乱，掌控 AI 支出</p>
 </div>

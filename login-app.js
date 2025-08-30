@@ -49,7 +49,7 @@ function LoginApp() {
             <div className="logo-icon flex items-center justify-center overflow-hidden">
               {/* 如果有上传的图片，使用图片；否则使用SVG */}
               <img 
-                src="/assets/images/logo.png" 
+                src="/assets/images/管订NoSam 产品图标.png" 
                 alt="管订 NoSam" 
                 className="w-full h-full object-contain"
                 onError={(e) => {

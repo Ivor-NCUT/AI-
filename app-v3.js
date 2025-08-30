@@ -178,7 +178,7 @@ function App() {
               <div className="flex items-center space-x-3">
                 <div className="logo-container p-0 overflow-hidden">
                   <img 
-                    src="/assets/images/logo.png" 
+                    src="/assets/images/管订NoSam 产品图标.png" 
                     alt="管订 NoSam" 
                     className="w-full h-full object-contain"
                     onError={(e) => {
