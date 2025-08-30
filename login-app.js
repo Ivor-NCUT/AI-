@@ -46,7 +46,7 @@ function LoginApp() {
         <div className="login-card relative z-10">
           <div className="text-center">
             {/* 产品图标 */}
-            <div className="logo-icon flex items-center justify-center overflow-hidden">
+            <div className="logo-icon flex items-center justify-center">
               {/* 如果有上传的图片，使用图片；否则使用SVG */}
               <img 
                 src="/assets/images/管订NoSam_产品图标-透明底.png" 
