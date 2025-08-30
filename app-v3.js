@@ -35,7 +35,7 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
     localStorage.setItem('theme', theme);
   }, [theme]);
 
@@ -155,9 +155,9 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">正在加载系统...</p>
         </div>
       </div>
@@ -171,8 +171,8 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* 顶部导航栏 */}
-      <nav className="card mx-4 mt-4 lg:mx-8">
-        <div className="px-6">
+      <nav className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-lg sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <div className="flex items-center space-x-3">
@@ -180,27 +180,26 @@ function App() {
                   <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none">
                     <rect x="3" y="6" width="18" height="15" rx="3" fill="white" fillOpacity="0.9"/>
                     <rect x="3" y="3" width="18" height="5" rx="2" fill="white" fillOpacity="0.8"/>
-                    <circle cx="7" cy="5" r="1" fill="#0891b2"/>
-                    <circle cx="12" cy="5" r="1" fill="#0891b2"/>
-                    <circle cx="17" cy="5" r="1" fill="#0891b2"/>
-                    <path d="M8 12 L10 14 L15 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="7" cy="5" r="1" fill="white" fillOpacity="0.6"/>
+                    <circle cx="12" cy="5" r="1" fill="white" fillOpacity="0.6"/>
+                    <circle cx="17" cy="5" r="1" fill="white" fillOpacity="0.6"/>
                   </svg>
                 </div>
                 <div>
-                  <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    管订 <span className="bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent font-bold">NoSam</span>
+                  <h1 className="text-lg font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent">
+                    管订 NoSam
                   </h1>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    优雅地管理 AI 订阅
+                    优雅地管理你的 AI 订阅
                   </p>
                 </div>
               </div>
             </div>
             
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               <button
                 onClick={() => setIsSettingsOpen(true)}
-                className="p-2.5 rounded-xl bg-white/50 dark:bg-gray-700/50 hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 shadow-sm hover:shadow-md"
+                className="p-2.5 rounded-xl hover:bg-cyan-50 dark:hover:bg-gray-700 transition-all duration-300"
                 title="设置"
               >
                 <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -211,7 +210,7 @@ function App() {
               
               <button
                 onClick={toggleTheme}
-                className="p-2.5 rounded-xl bg-white/50 dark:bg-gray-700/50 hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 shadow-sm hover:shadow-md"
+                className="p-2.5 rounded-xl hover:bg-cyan-50 dark:hover:bg-gray-700 transition-all duration-300"
                 title="切换主题"
               >
                 {theme === 'light' ? (
@@ -225,7 +224,7 @@ function App() {
                 )}
               </button>
               
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 bg-white/50 dark:bg-gray-700/50 px-3 py-2 rounded-xl">
                 <span className="text-sm text-gray-600 dark:text-gray-300">
                   {currentUser.username}
                 </span>
@@ -235,10 +234,10 @@ function App() {
                       logout();
                     }
                   }}
-                  className="p-2 text-gray-600 dark:text-gray-300 hover:text-red-500 transition-colors"
+                  className="p-1.5 rounded-lg text-gray-600 dark:text-gray-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-300"
                   title="退出登录"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                   </svg>
                 </button>
@@ -251,18 +250,18 @@ function App() {
       {/* 主内容区域 */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* 页面标题 */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <div className="mb-8 text-center">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent">
             我的 AI 订阅
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
             告诉 Sam Altman：No！我的订阅我做主
           </p>
         </div>
 
         {/* 统计卡片 */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="card p-5">
+          <div className="card p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">总订阅数</p>
@@ -270,280 +269,207 @@ function App() {
                   {stats.total}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-cyan-100 to-teal-100 dark:from-cyan-900 dark:to-teal-900 rounded-2xl flex items-center justify-center">
-                <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 bg-gradient-to-br from-cyan-100 to-teal-100 dark:from-cyan-900/30 dark:to-teal-900/30 rounded-2xl flex items-center justify-center">
+                <svg className="w-6 h-6 text-cyan-600 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
               </div>
             </div>
           </div>
 
-          <div className="card p-5">
+          <div className="card p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  月度支出 
-                  <span className="text-xs ml-1">({displayCurrency})</span>
+                <p className="text-sm text-gray-500 dark:text-gray-400">活跃订阅</p>
+                <p className="text-2xl font-bold text-green-600 dark:text-green-400 mt-1">
+                  {stats.active}
                 </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+              </div>
+              <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-2xl flex items-center justify-center">
+                <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="card p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">月度费用</p>
+                <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">
                   {formatCurrency(stats.monthlyTotal, displayCurrency)}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <div className="card p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  年度支出
-                  <span className="text-xs ml-1">({displayCurrency})</span>
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-                  {formatCurrency(stats.yearlyTotal, displayCurrency)}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <div className="card p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  平均单价
-                  <span className="text-xs ml-1">({displayCurrency})</span>
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-                  {formatCurrency(stats.avgPrice, displayCurrency)}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl flex items-center justify-center">
+                <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* 订阅列表 */}
-        <div className="card">
-          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                订阅列表
-              </h3>
-              <div className="flex items-center space-x-3 w-full sm:w-auto">
-                <div className="relative flex-1 sm:flex-initial">
-                  <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="搜索订阅..."
-                    className="w-full sm:w-64 px-4 py-2 pl-10 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  />
-                  <svg className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-                <button
-                  onClick={() => {
-                    setEditingSubscription(null);
-                    setIsModalOpen(true);
-                  }}
-                  className="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors flex items-center space-x-2"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
-                  <span>添加订阅</span>
-                </button>
+          <div className="card p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">年度费用</p>
+                <p className="text-2xl font-bold text-purple-600 dark:text-purple-400 mt-1">
+                  {formatCurrency(stats.yearlyTotal, displayCurrency)}
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl flex items-center justify-center">
+                <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* 表格 */}
-          {filteredSubscriptions.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50 dark:bg-gray-700">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      产品名称
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      版本
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      计费周期
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      价格
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      用户数
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      月度成本
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      到期时间
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      状态
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      操作
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {filteredSubscriptions.map((sub) => {
-                    // 计算月度等价（原币种）
-                    let monthlyInOriginal = sub.price * sub.users;
-                    if (sub.billingCycle === '年付') {
-                      monthlyInOriginal = monthlyInOriginal / 12;
-                    } else if (sub.billingCycle === '季付') {
-                      monthlyInOriginal = monthlyInOriginal / 3;
-                    }
-                    
-                    // 转换为显示货币
-                    const monthlyInDisplay = convertCurrency(monthlyInOriginal, sub.currency, displayCurrency);
-                    
-                    const daysRemaining = Math.max(0, Math.ceil((new Date(sub.endDate) - new Date()) / (1000 * 60 * 60 * 24)));
-                    const isExpiringSoon = daysRemaining <= 30;
-                    const isExpired = daysRemaining === 0;
-                    
-                    return (
-                      <tr key={sub.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="text-sm font-medium text-gray-900 dark:text-white">
-                              {sub.productName}
-                            </div>
-                            {sub.isCustomProduct && (
-                              <span className="ml-2 px-2 py-0.5 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full">
-                                自定义
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            sub.plan === '企业版' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' :
-                            sub.plan === '团队版' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
-                            'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                          }`}>
-                            {sub.plan}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                          {sub.billingCycle}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                          {formatCurrency(sub.price, sub.currency, true)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                          {sub.users}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-emerald-600 dark:text-emerald-400">
-                          {formatCurrency(monthlyInDisplay, displayCurrency)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                          <div>
-                            <div>{sub.endDate}</div>
-                            <div className={`text-xs ${
-                              isExpired ? 'text-red-600 dark:text-red-400' :
-                              isExpiringSoon ? 'text-yellow-600 dark:text-yellow-400' :
-                              'text-gray-500 dark:text-gray-400'
-                            }`}>
-                              {isExpired ? '已过期' : `剩余 ${daysRemaining} 天`}
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            isExpired ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
-                            isExpiringSoon ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
-                            'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                          }`}>
-                            {isExpired ? '已过期' : isExpiringSoon ? '即将到期' : '正常'}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <div className="flex space-x-2">
-                            <button
-                              onClick={() => editSubscription(sub)}
-                              className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
-                              title="编辑"
-                            >
-                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                              </svg>
-                            </button>
-                            <button
-                              onClick={() => deleteSubscription(sub.id)}
-                              className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                              title="删除"
-                            >
-                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                              </svg>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+        {/* 操作栏 */}
+        <div className="card p-4 mb-6">
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+            <div className="relative flex-1 w-full">
+              <input
+                type="text"
+                placeholder="搜索订阅..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 border-2 border-transparent focus:border-cyan-400 rounded-xl focus:outline-none focus:ring-4 focus:ring-cyan-200/30 dark:focus:ring-cyan-800/30 transition-all duration-300"
+              />
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            
+            <button
+              onClick={() => {
+                setEditingSubscription(null);
+                setIsModalOpen(true);
+              }}
+              className="btn-primary flex items-center gap-2 whitespace-nowrap"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+              添加订阅
+            </button>
+          </div>
+        </div>
+
+        {/* 订阅列表 */}
+        <div className="grid gap-4">
+          {filteredSubscriptions.length === 0 ? (
+            <div className="card p-12 text-center">
+              <svg className="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+              </svg>
+              <p className="text-gray-500 dark:text-gray-400 text-lg">暂无订阅</p>
+              <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">点击"添加订阅"开始管理您的 AI 产品</p>
             </div>
           ) : (
-            <div className="text-center py-12">
-              <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-              </svg>
-              <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">暂无订阅</h3>
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                点击上方按钮添加您的第一个AI产品订阅
-              </p>
-            </div>
+            filteredSubscriptions.map(subscription => (
+              <div key={subscription.id} className="card p-6 hover:shadow-xl transition-all duration-300">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-3">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        {subscription.productName}
+                      </h3>
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        subscription.status === 'active' 
+                          ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' 
+                          : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-400'
+                      }`}>
+                        {subscription.status === 'active' ? '活跃' : '已暂停'}
+                      </span>
+                      {subscription.autoRenew && (
+                        <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
+                          自动续费
+                        </span>
+                      )}
+                    </div>
+                    
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
+                      <div>
+                        <p className="text-gray-500 dark:text-gray-400">套餐</p>
+                        <p className="text-gray-900 dark:text-white font-medium">{subscription.plan}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500 dark:text-gray-400">费用</p>
+                        <p className="text-gray-900 dark:text-white font-medium">
+                          {formatCurrency(
+                            convertCurrency(subscription.price, subscription.currency, displayCurrency),
+                            displayCurrency
+                          )}/{subscription.billingCycle === 'monthly' ? '月' : '年'}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500 dark:text-gray-400">用户数</p>
+                        <p className="text-gray-900 dark:text-white font-medium">{subscription.users}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500 dark:text-gray-400">到期日</p>
+                        <p className="text-gray-900 dark:text-white font-medium">
+                          {new Date(subscription.endDate).toLocaleDateString('zh-CN')}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-2 ml-4">
+                    <button
+                      onClick={() => editSubscription(subscription)}
+                      className="p-2.5 rounded-xl hover:bg-cyan-50 dark:hover:bg-gray-700 transition-all duration-300"
+                      title="编辑"
+                    >
+                      <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => deleteSubscription(subscription.id)}
+                      className="p-2.5 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-300"
+                      title="删除"
+                    >
+                      <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
           )}
         </div>
       </main>
 
-      {/* 添加/编辑订阅弹窗 */}
+      {/* 添加/编辑订阅模态框 */}
       {isModalOpen && (
         <AddEditSubscriptionModal
-          subscription={editingSubscription}
+          isOpen={isModalOpen}
           onClose={() => {
             setIsModalOpen(false);
             setEditingSubscription(null);
           }}
-          onSubmit={addOrUpdateSubscription}
+          onSave={addOrUpdateSubscription}
+          subscription={editingSubscription}
         />
       )}
-      
-      {/* 设置弹窗 */}
+
+      {/* 设置模态框 */}
       {isSettingsOpen && (
         <SettingsModal
+          isOpen={isSettingsOpen}
           onClose={() => setIsSettingsOpen(false)}
           onSave={handleSettingsSave}
+          currentCurrency={displayCurrency}
         />
       )}
     </div>
   );
 }
 
+// 渲染应用
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);
