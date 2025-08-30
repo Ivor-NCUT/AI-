@@ -337,7 +337,7 @@ function App() {
         </div>
 
         {/* 订阅列表 */}
-        <div className="card">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
           <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
