@@ -176,15 +176,26 @@ function App() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <div className="flex items-center space-x-3">
-                <div className="logo-container">
-                  <svg viewBox="0 0 24 24" className="w-6 h-6" fill="white">
-                    <rect x="4" y="6" width="16" height="14" rx="2" fill="currentColor" opacity="0.9"/>
-                    <rect x="4" y="3" width="16" height="4" rx="1" fill="currentColor"/>
-                    <circle cx="8" cy="5" r="0.5" fill="white"/>
-                    <circle cx="12" cy="5" r="0.5" fill="white"/>
-                    <circle cx="16" cy="5" r="0.5" fill="white"/>
-                    <path d="M8 11h8M8 14h5" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.7"/>
-                  </svg>
+                <div className="logo-container p-0 overflow-hidden">
+                  <img 
+                    src="/assets/images/logo.png" 
+                    alt="管订 NoSam" 
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      // 如果图片加载失败，使用备用SVG
+                      e.target.style.display = 'none';
+                      e.target.parentElement.innerHTML = `
+                        <svg viewBox="0 0 24 24" class="w-6 h-6" fill="white">
+                          <rect x="4" y="6" width="16" height="14" rx="2" fill="currentColor" opacity="0.9"/>
+                          <rect x="4" y="3" width="16" height="4" rx="1" fill="currentColor"/>
+                          <circle cx="8" cy="5" r="0.5" fill="white"/>
+                          <circle cx="12" cy="5" r="0.5" fill="white"/>
+                          <circle cx="16" cy="5" r="0.5" fill="white"/>
+                          <path d="M8 11h8M8 14h5" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.7"/>
+                        </svg>
+                      `;
+                    }}
+                  />
                 </div>
                 <div>
                   <h1 className="text-lg font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent">

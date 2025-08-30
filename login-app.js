@@ -46,8 +46,19 @@ function LoginApp() {
         <div className="login-card relative z-10">
           <div className="text-center">
             {/* 产品图标 */}
-            <div className="logo-icon flex items-center justify-center">
-              <svg viewBox="0 0 24 24" className="w-full h-full" fill="none">
+            <div className="logo-icon flex items-center justify-center overflow-hidden">
+              {/* 如果有上传的图片，使用图片；否则使用SVG */}
+              <img 
+                src="/assets/images/logo.png" 
+                alt="管订 NoSam" 
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  // 如果图片加载失败，使用备用SVG
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'block';
+                }}
+              />
+              <svg viewBox="0 0 24 24" className="w-full h-full hidden" fill="none" style={{display: 'none'}}>
                 <rect x="3" y="6" width="18" height="15" rx="3" fill="white" fillOpacity="0.9"/>
                 <rect x="3" y="3" width="18" height="5" rx="2" fill="currentColor" fillOpacity="0.8"/>
                 <circle cx="7" cy="5" r="1" fill="white"/>
