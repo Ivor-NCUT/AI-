@@ -81,7 +81,7 @@ function App() {
         setSubscriptions(prev => 
           prev.map(sub => 
             sub.id === editingSubscription.id 
-              ? { ...subscription, id: editingSubscription.id }
+              ? { ...subscription, id: editingSubscription.id, status: sub.status || 'active' }
               : sub
           )
         );
@@ -95,7 +95,8 @@ function App() {
         
         const formattedSub = {
           id: newSubscription.objectId,
-          ...subscription
+          ...subscription,
+          status: 'active'
         };
         
         setSubscriptions(prev => [...prev, formattedSub]);
@@ -178,7 +179,7 @@ function App() {
               <div className="flex items-center space-x-3">
                 <div className="logo-container p-0 overflow-hidden">
                   <img 
-                    src="/assets/images/管订NoSam 产品图标.png" 
+                    src="/assets/images/管订NoSam_产品图标-透明底.png" 
                     alt="管订 NoSam" 
                     className="w-full h-full object-contain"
                     onError={(e) => {
@@ -461,7 +462,7 @@ function App() {
             setIsModalOpen(false);
             setEditingSubscription(null);
           }}
-          onSave={addOrUpdateSubscription}
+          onSubmit={addOrUpdateSubscription}
           subscription={editingSubscription}
         />
       )}
