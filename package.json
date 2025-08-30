@@ -1,7 +1,7 @@
 {
   "name": "nosam-subscription-manager",
   "version": "2.1.0",
-  "description": "管订 NoSam - 管理你的AI产品订阅，告诉Sam Altman: No!",
+  "description": "管订 NoSam - 优雅地管理你的AI产品订阅",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -12,14 +12,22 @@
     "ai",
     "subscription",
     "management",
-    "enterprise",
+    "nosam",
+    "ai-tools",
+    "subscription-manager",
+    "chatgpt",
+    "claude",
     "saas"
   ],
-  "author": "AI Subscription Team",
+  "author": "Ivor-NCUT",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Ivor-NCUT/AI-.git"
+  },
+  "homepage": "https://github.com/Ivor-NCUT/AI-#readme",
+  "bugs": {
+    "url": "https://github.com/Ivor-NCUT/AI-/issues"
   },
   "engines": {
     "node": ">=14.0.0"
