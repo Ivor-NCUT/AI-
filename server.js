@@ -153,6 +153,7 @@ server.listen(PORT, '0.0.0.0', () => {
 ║                                                            ║
 ║     主页面: http://localhost:${PORT}/index.html                ║
 ║     登录页: http://localhost:${PORT}/login.html                ║
+║     管理后台: http://localhost:${PORT}/admin.html              ║
 ║                                                            ║
 ║     按 Ctrl+C 停止服务器                                    ║
 ║                                                            ║
